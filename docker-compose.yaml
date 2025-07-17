@@ -1,0 +1,18 @@
+services:
+
+  dashlit:
+    image: ghcr.io/codewec/dashlit:latest
+    container_name: dashlit-app
+    environment:
+      ORIGIN: '${ORIGIN:-http://localhost:8200}' # please provide URL if different
+      NODE_ENV: '${NODE_ENV:-production}' # optional for production environment
+      HOST_HEADER: '${HOST_HEADER:-HOST}' # optional for nginx reverse proxy
+      ADDRESS_HEADER: '${ADDRESS_HEADER:-X-Real-IP}' # optional for nginx reverse proxy
+      PROTOCOL_HEADER: '${PROTOCOL_HEADER:-X-Forwarded-Proto}' # optional for nginx reverse proxy
+#      PASSWORD: '${PASSWORD:-p4ssw0rd}'
+      SECRET_KEY: '${SECRET_KEY:-6ft0ryZAeb3DdFIeEwi4uv5zI69GE2ez}' # optional key for JWT authentication
+    restart: unless-stopped
+    ports:
+      - '8200:3000'
+    volumes:
+      - ./data:/app/data
